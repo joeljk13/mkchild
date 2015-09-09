@@ -1,20 +1,25 @@
 #include <assert.h>
-#include <errno.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
+
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <stdlib.h>
+#include <unistd.h>
 
 int
 main(int argc, char **argv)
 {
     pid_t pid;
+    const char *program_name;
 
-    assert(argc > 0);
+    if (argc >= 1) {
+        program_name = argv[0];
+    } else {
+        program_name = "mkchild";
+    }
 
-    if (argc < 2) {
-        printf("usage: %s command [arguments...]\n", argv[0]);
+    if (argc == 1) {
+        printf("usage: %s command [arguments...]\n", program_name);
         return 1;
     }
 
@@ -25,12 +30,10 @@ main(int argc, char **argv)
     }
 
     if (pid == 0) {
-        execvp(argv[1], argv + 1);
+        execvp(argv[1], &argv[1]);
         perror(argv[1]);
         return 1;
     }
-
-    assert(pid > 0);
 
     if (wait(NULL) != pid) {
         perror("wait");
