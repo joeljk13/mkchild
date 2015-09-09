@@ -26,7 +26,7 @@ main(int argc, char **argv)
 
     if (pid == 0) {
         execvp(argv[1], argv + 1);
-        perror("execvp");
+        perror(argv[1]);
         return 1;
     }
 
