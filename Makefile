@@ -1,7 +1,7 @@
 CFLAGS = -g -O2 -Wall
 
-mkchld: mkchld.o
+mkchild: mkchild.o
 
 .PHONY: clean
 clean:
-	rm -f mkchld *.[ios]
+	rm -f mkchild *.[ios]
